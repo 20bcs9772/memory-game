@@ -20,7 +20,7 @@ const MemoryGame = ({ images }) => {
   const [evenClick, setEvenClick] = useState(null);
 
   const handleClick = (selectedIndex) => {
-    if(checked[selectedIndex]) return;
+    if(checked[selectedIndex] || imageState[selectedIndex]) return;
     const imageStates = [];
     const checkedStates = checked;
     if (evenClick === null) {
