@@ -16,47 +16,23 @@ const generateInitialState = () => {
 const MemoryGame = ({ images }) => {
   const [randomImages] = useState(() => shuffle([...images, ...images]));
   const [imageState, setImageState] = useState(generateInitialState);
-  const [checked, setChecked] = useState(generateInitialState);
   const [evenClick, setEvenClick] = useState(null);
 
   const handleClick = (selectedIndex) => {
-    if(checked[selectedIndex] || imageState[selectedIndex]) return;
-    const imageStates = [];
-    const checkedStates = checked;
+    if (imageState[selectedIndex]) return;
+    const resetImage = imageState;
+    resetImage[selectedIndex] = true;
     if (evenClick === null) {
-      imageState.map((images, index) => {
-        if (selectedIndex === index) {
-          imageStates.push(!imageState[index]);
-        } else {
-          imageStates.push(imageState[index]);
-        }
-      });
       setEvenClick(selectedIndex);
+      setImageState(resetImage);
     } else {
-      if (randomImages[evenClick] === randomImages[selectedIndex]) {
-        imageState.map((images, index) => {
-          if (selectedIndex === index || index === evenClick) {
-            imageStates.push(true);
-          } else {
-            imageStates.push(imageState[index]);
-          }
-        });
-
-        checkedStates[evenClick] = true;
-        checkedStates[selectedIndex] = true;
-        setChecked(checkedStates);
-      } else {
-        imageState.map((images, index) => {
-          if (selectedIndex === index || index === evenClick) {
-            imageStates.push(false);
-          } else {
-            imageStates.push(imageState[index]);
-          }
-        });
+      if (randomImages[evenClick] !== randomImages[selectedIndex]) {
+        resetImage[selectedIndex] = false;
+        resetImage[evenClick] = false;
+        setImageState(resetImage);
       }
       setEvenClick(null);
     }
-    setImageState(imageStates);
   };
 
   return (
