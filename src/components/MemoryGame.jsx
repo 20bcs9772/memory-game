@@ -19,14 +19,11 @@ const MemoryGame = ({ images }) => {
   const [checked, setChecked] = useState(generateInitialState);
   const [evenClick, setEvenClick] = useState(null);
 
-  console.log(randomImages);
-
   const handleClick = (selectedIndex) => {
+    if(checked[selectedIndex] || imageState[selectedIndex]) return;
     const imageStates = [];
     const checkedStates = checked;
-    console.log(evenClick);
-    if (evenClick === null && !checked[selectedIndex]) {
-      console.log("inside if");
+    if (evenClick === null) {
       imageState.map((images, index) => {
         if (selectedIndex === index) {
           imageStates.push(!imageState[index]);
@@ -38,7 +35,7 @@ const MemoryGame = ({ images }) => {
     } else {
       if (randomImages[evenClick] === randomImages[selectedIndex]) {
         imageState.map((images, index) => {
-          if (selectedIndex === index || selectedIndex === evenClick) {
+          if (selectedIndex === index || index === evenClick) {
             imageStates.push(true);
           } else {
             imageStates.push(imageState[index]);
@@ -49,9 +46,8 @@ const MemoryGame = ({ images }) => {
         checkedStates[selectedIndex] = true;
         setChecked(checkedStates);
       } else {
-        console.log(evenClick);
         imageState.map((images, index) => {
-          if (selectedIndex === index || selectedIndex === evenClick) {
+          if (selectedIndex === index || index === evenClick) {
             imageStates.push(false);
           } else {
             imageStates.push(imageState[index]);
@@ -60,11 +56,9 @@ const MemoryGame = ({ images }) => {
       }
       setEvenClick(null);
     }
-    console.log(imageStates);
     setImageState(imageStates);
   };
 
-  console.log("imageState", imageState);
   return (
     <div className="container w-full">
       <h1>Memory Game</h1>
