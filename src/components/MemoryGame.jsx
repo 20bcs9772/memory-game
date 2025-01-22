@@ -32,6 +32,7 @@ const MemoryGame = ({ images }) => {
         setImageState(resetImage);
       }
       setEvenClick(null);
+      console.log("test")
     }
   };
 
